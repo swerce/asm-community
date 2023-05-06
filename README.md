@@ -252,3 +252,87 @@ After reading the user input, the program calculates the factorial using a loop.
 Finally, the program prints the `res` string followed by the factorial result to the console using the `write` system call. The `mov` instructions set the appropriate values in the registers, and the `int 80h` instruction invokes the system call.
 
 The last few instructions in the program print the value of `num` to the console and exit the program.
+
+# Fibonacci Series program in x86 Assembly
+
+here's the code for a Fibonacci Series program in x86 Assembly language:
+
+```assembly
+.model small
+.stack 100h
+
+.data
+    msg db 10,13,"Enter the limit of the Fibonacci series : $"
+    num1 db 0
+    num2 db 1
+    temp db ?
+    limit dw ?
+    fibo db 1000 dup('$')
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    
+    mov ah, 09h  ; display the message to enter limit
+    lea dx, msg
+    int 21h
+    
+    mov ah, 01h  ; read limit from user
+    int 21h
+    sub al, 30h  ; convert ASCII to decimal
+    mov limit, ax
+    
+    mov bx, 0    ; initialize loop counter
+    mov cx, 2    ; initialize counter for fibo array
+    
+    mov ah, 02h  ; display 0th and 1st term of fibo series
+    mov dl, num1
+    int 21h
+    
+    mov ah, 02h
+    mov dl, num2
+    int 21h
+    
+    add dl, num1 ; calculate 2nd term
+    mov temp, dl ; store result in temporary variable
+    
+    mov ah, 02h  ; display 2nd term of fibo series
+    mov dl, temp
+    int 21h
+    
+next:   
+    cmp cx, limit ; check if limit reached
+    jge exit
+    
+    mov num1, num2   ; swap the numbers
+    mov num2, temp   ; swap the numbers
+    add num2, num1   ; calculate next term
+    mov temp, num2   ; store result in temporary variable
+    
+    mov ah, 02h      ; display the next term
+    mov dl, num2
+    int 21h
+    
+    inc cx           ; increment the counter
+    jmp next
+
+exit:
+    mov ah, 4ch
+    int 21h
+main endp
+end main
+```
+
+Here's how the program works:
+
+1. The program prompts the user to enter the limit of the Fibonacci series to be generated.
+2. The limit is read from the user and stored in the `limit` variable.
+3. The program initializes the loop counter and a counter for the `fibo` array to 2.
+4. The first and second terms of the Fibonacci series (0 and 1) are displayed using the DOS interrupt 21h.
+5. The third term is calculated by adding the first and second terms, and stored in a temporary variable.
+6. The third term is displayed using the DOS interrupt 21h.
+7. The loop continues to calculate and display the subsequent terms until the limit is reached.
+8. The program exits.
+
+This program uses a simple iterative approach to generate the Fibonacci series, where each term is calculated by adding the two previous terms. The temporary variable is used to store the result of the addition, and the values of the `num1` and `num2` variables are swapped to prepare for the next iteration of the loop.
