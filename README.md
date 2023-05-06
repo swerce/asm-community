@@ -114,7 +114,7 @@ Let's go over this program step by step:
 
 Here's the code for the Add Two Numbers Program in x86 assembly language:
 
-```
+```assembly
 section .data
     prompt1 db "Enter the first number: ",0
     prompt2 db "Enter the second number: ",0
