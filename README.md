@@ -4,7 +4,8 @@ building a community of low level programmer those who love assembly and c (low 
 ## These programs cover a wide range of concepts and algorithms in assembly language, and you can learn a lot from them by studying their code and understanding how they work.
 
 
-![assembly](https://img.shields.io/badge/language-assembly-red)
+![assembly](https://img.shields.io/badge/language-assembly-red)![low-level](https://img.shields.io/badge/programming-low--level-blue)
+
 
 
 here's the code for the first program:
