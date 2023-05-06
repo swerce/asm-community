@@ -177,3 +177,78 @@ _start:
 This program uses the `int 0x80` instruction to interact with the Linux kernel and perform input and output operations. The program first prompts the user to enter two numbers and then reads them from the console using the `read` system call. The two numbers are then added together and the sum is printed to the console using the `write` system call.
 
 Note that this program assumes that the two numbers entered by the user are valid integers and does not perform any error checking. In a real-world application, you would want to add error handling code to ensure that the program does not crash if the user enters invalid input.
+
+# Factorial program in Assembly x86
+
+Here is an code for the Factorial program:
+
+```assembly
+section .data
+    msg db "Enter a number: "
+    len equ $-msg
+    res db "Factorial = "
+    res_len equ $-res
+    
+section .bss
+    num resw 1
+    
+section .text
+    global _start
+    
+_start:
+    ; print message to console
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg
+    mov edx, len
+    int 80h
+    
+    ; read input from user
+    mov eax, 3
+    mov ebx, 2
+    mov ecx, num
+    mov edx, 2
+    int 80h
+    
+    ; calculate factorial
+    mov eax, [num]
+    mov ebx, eax
+    mov ecx, eax
+    dec ecx
+    
+    .loop:
+        mul ecx
+        loop .loop
+    
+    ; print result to console
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, res
+    mov edx, res_len
+    int 80h
+    
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, num
+    mov edx, 2
+    int 80h
+    
+    ; exit program
+    mov eax, 1
+    xor ebx, ebx
+    int 80h
+```
+
+The program starts with defining some data sections. The `.data` section contains two strings - `msg` and `res`. `msg` is used to prompt the user to enter a number, while `res` is used to display the factorial result. The `.bss` section reserves memory for the `num` variable, which will be used to store the user input.
+
+The `.text` section contains the actual program code. The `_start` label indicates the beginning of the program. 
+
+The first instruction in the program prints the `msg` string to the console using the `write` system call. The `mov` instructions set the appropriate values in the registers, and the `int 80h` instruction invokes the system call.
+
+Next, the program reads input from the user using the `read` system call. The `mov` instructions set the appropriate values in the registers - `eax` is set to 3 (the `read` system call), `ebx` is set to 2 (the file descriptor for standard input), `ecx` is set to `num` (the memory location where the input will be stored), and `edx` is set to 2 (the number of bytes to read).
+
+After reading the user input, the program calculates the factorial using a loop. The loop starts by setting `eax` and `ebx` to the value of `num`. `ecx` is then set to `num - 1`. The loop multiplies `eax` by `ecx`, decrements `ecx`, and continues until `ecx` is zero. At this point, the factorial is stored in `eax`.
+
+Finally, the program prints the `res` string followed by the factorial result to the console using the `write` system call. The `mov` instructions set the appropriate values in the registers, and the `int 80h` instruction invokes the system call.
+
+The last few instructions in the program print the value of `num` to the console and exit the program.
